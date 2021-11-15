@@ -13,6 +13,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import pe.partnertech.fenosys.controller.util.util_code.Code_AssignDistrito;
 import pe.partnertech.fenosys.controller.util.util_code.Code_SetUserRol;
 import pe.partnertech.fenosys.controller.util.util_code.Code_SignupValidations;
@@ -37,6 +39,8 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -63,6 +67,9 @@ public class SignupAgricultorController {
     JavaMailSender mailSender;
 
     final
+    TemplateEngine templateEngine;
+
+    final
     IUtilityTokenService utilityTokenService;
 
     @Value("${front.baseurl}")
@@ -77,13 +84,14 @@ public class SignupAgricultorController {
     public SignupAgricultorController(PasswordEncoder passwordEncoder, IUsuarioService usuarioService,
                                       IRolService rolService, IImagenService imagenService,
                                       IDistritoService distritoService, JavaMailSender mailSender,
-                                      IUtilityTokenService utilityTokenService) {
+                                      TemplateEngine templateEngine, IUtilityTokenService utilityTokenService) {
         this.passwordEncoder = passwordEncoder;
         this.usuarioService = usuarioService;
         this.rolService = rolService;
         this.imagenService = imagenService;
         this.distritoService = distritoService;
         this.mailSender = mailSender;
+        this.templateEngine = templateEngine;
         this.utilityTokenService = utilityTokenService;
     }
 
@@ -242,14 +250,18 @@ public class SignupAgricultorController {
 
         String asunto = "Verificación de Cuenta";
 
-        String contenido =
-                "<h2>Hola,</h1>" +
-                        "<p>Gracias por registrarte en Fenosys.</p>" +
-                        "<br>Haz click en el link que se encuentra debajo para verificar su cuenta y tener acceso al sistema." +
-                        "<a target=\"_blank\" href=" + url + ">Verificar Mi Cuenta</a>";
+        Context context = new Context();
+        Map<String, Object> model = new HashMap<>();
+        model.put("img_logo", img_logo);
+        model.put("url", url);
+        model.put("system_mail", system_mail);
+
+        context.setVariables(model);
+
+        String html_template = templateEngine.process("agricultorverify-mailtemplate", context);
 
         helper.setSubject(asunto);
-        helper.setText(contenido, true);
+        helper.setText(html_template, true);
 
         mailSender.send(message);
     }
