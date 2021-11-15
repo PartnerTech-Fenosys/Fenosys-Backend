@@ -1,0 +1,311 @@
+<!--
+  ~ Copyright (c) 2021. Developed by Diego Campos Sandoval and José Soplin Roncal
+  -->
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--[if gte mso 15]>
+    <xml>
+        <o:OfficeDocumentSettings>
+            <o:AllowPNG/>
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+    </xml>
+    <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="date=no">
+    <meta name="format-detection" content="address=no">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- GOOGLE WEB FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,600" rel="stylesheet">
+
+    <style>
+        *{
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            padding: 0 !important;
+            margin: 0 !important;
+            display: block !important;
+            min-width: 100% !important;
+            width: 100% !important;
+            background: #ededed;
+            font-family: 'Work Sans', Arial, sans-serif;
+            -webkit-text-size-adjust: none;
+        }
+
+        a {
+            color: #1dbe72;
+            text-decoration: none;
+        }
+
+        p {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        strong {
+            font-weight: 600 !important;
+        }
+
+        img {
+            -ms-interpolation-mode: bicubic;
+            /* Para Internet Explorer */
+        }
+
+        /* Estilos Mobile */
+        @media only screen and (max-width:525px) {
+
+            .mobile-br-15 {
+                height: 15px !important;
+            }
+
+            .m-td,
+            .m-td,
+            .m-td{
+                display: none !important;
+                width: 0 !important;
+                height: 0 !important;
+                font-size: 0 !important;
+                line-height: 0 !important;
+                min-height: 0 !important;
+            }
+
+            .img-m-center{
+                text-align: center !important;
+            }
+
+            .text-r-m-center,
+            .text-white-top,
+            .text-white-top{
+                text-align: center !important;
+            }
+
+            .fluid-img img,
+            .fluid-img img {
+                width: 100% !important;
+                max-width: 100% !important;
+                height: auto !important;
+            }
+
+            .mobile-shell {
+                width: 100% !important;
+                min-width: 100% !important;
+            }
+
+            .center {
+                margin: 0 auto;
+            }
+
+            .td{
+                width: 100% !important;
+                min-width: 100% !important;
+            }
+
+            .content-spacing {
+                width: 15px !important;
+            }
+
+        }
+    </style>
+</head>
+
+<body class="body" style="padding:0 !important; margin:0 !important; display:block !important; min-width:100% !important; width:100% !important; background:#ededed; -webkit-text-size-adjust:none;">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ededed">
+    <tr>
+        <td align="center" valign="top">
+            <!-- Header -->
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#1dbe72">
+                <tr>
+                    <td align="center">
+                        <table width="650" border="0" cellspacing="0" cellpadding="0" class="mobile-shell">
+                            <tr>
+                                <td class="td" style="width:650px; min-width:650px; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">
+                                    <!-- Header tabla -->
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td>
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                    <tr>
+                                                        <td height="30" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                                                    </tr>
+                                                </table>
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                    <tr>
+                                                        <td height="25" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- Fin Header Tabla -->
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <!-- Fin Header -->
+            <!-- Form -->
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ededed">
+                <tr>
+                    <td valign="top" class="m-td" style="font-size:0pt; line-height:0pt; text-align:left">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#1dbe72" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                            <tr>
+                                <td bgcolor="#1dbe72" height="190" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td width="650" align="center">
+                        <table width="650" border="0" cellspacing="0" cellpadding="0" class="mobile-shell" bgcolor="#6634cc">
+                            <tr>
+                                <td class="td" style="width:650px; min-width:650px; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td class="img" style="font-size:0pt; line-height:0pt; text-align:left" width="20"></td>
+                                            <td>
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                    <tr>
+                                                        <td height="40" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                                                    </tr>
+                                                </table>
+                                                <div class="fluid-img" style="font-size:0pt; line-height:0pt;">
+                                                    <div class="img-center" style="font-size:0pt; line-height:0pt; text-align:center">
+                                                        <img th:src="@{${img_logo}}"  border="0" width="357" height="230" alt=""/>
+                                                    </div>
+                                                </div>
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                    <tr>
+                                                        <td height="30" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td class="img" style="font-size:0pt; line-height:0pt; text-align:left" width="20"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="650" border="0" cellspacing="0" cellpadding="0" class="mobile-shell">
+                            <tr>
+                                <td>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+                                        <tr>
+                                            <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="30"></td>
+                                            <td>
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                    <tr>
+                                                        <td height="40" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                                                    </tr>
+                                                </table>
+                                                <div style="color:#333333; font-family: 'Work Sans', Arial, sans-serif; font-size:26px; line-height:34px; text-align:center; font-weight: 500;">Solicitud Aprobada</div>
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                    <tr>
+                                                        <td height="30" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                                                    </tr>
+                                                </table>
+                                                <div style="color:#444444; font-family: 'Work Sans', Arial, sans-serif; font-size:15px; line-height:21px; text-align:center">
+                                                    Hemos generado un usuario para ti
+                                                </div>
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                    <tr>
+                                                        <td height="15" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                                                    </tr>
+                                                </table>
+                                                <!-- El mensaje -->
+                                                <div style="color:#444444; font-family: 'Work Sans', Arial, sans-serif; font-size:15px; line-height:21px; text-align:center; font-weight: bolder">
+                                                    Usuario: <span style="font-weight: 200" th:text="${username}"></span>
+                                                </div>
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                    <tr>
+                                                        <td height="50" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                                                    </tr>
+                                                </table>
+                                                <div style="color:#333333; font-family: 'Work Sans', Arial, sans-serif; font-size:15px; line-height:21px; text-align:center">
+                                                    Dale click al enlace para culminar con el registro
+                                                </div>
+                                                <div style="text-align:center">
+                                                    <a target="_blank" style="color: #1dbe72; text-decoration: none; font-size:15px" th:href="@{${url}}">Culminar Registro</a>
+                                                </div>
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                    <tr>
+                                                        <td height="30" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                                                    </tr>
+                                                </table>
+                                                <div style="color:#333333; font-family: 'Work Sans', Arial, sans-serif; font-size:15px; line-height:21px; text-align:justify; font-weight: bolder">
+                                                    Recuerde que tiene 72 horas para finalizar con el proceso. De lo contrario, debe realizar una nueva solicitud.
+                                                </div>
+                                                <!-- Fin del mensaje-->
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                    <tr>
+                                                        <td height="40" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="30"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                        <tr>
+                                            <td height="20" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td valign="top" class="m-td" style="font-size:0pt; line-height:0pt; text-align:left">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#1dbe72" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                            <tr>
+                                <td bgcolor="#1dbe72" height="190" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <!-- Fin Form -->
+            <!-- Footer -->
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td align="center">
+                        <table width="650" border="0" cellspacing="0" cellpadding="0" class="mobile-shell">
+                            <tr>
+                                <td class="td" style="width:650px; min-width:650px; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td align="center">
+                                                <div class="text-r-m-center" style="color:#777777; font-family: 'Work Sans', Arial, sans-serif; font-size:14px; line-height:24px; text-align:center">
+                                                    <a href="#" target="_blank" style="color:#666666; text-decoration:underline"><span style="color:#666666; text-decoration:underline" th:text="${frontend_baseUrl}"></span></a>
+                                                    <br/>
+                                                    &copy; 2021 Dessmo - Todos los derechos reservados
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                        <tr>
+                                            <td height="40" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <!-- Fin Footer -->
+            <div style="font-size:0pt; line-height:0pt;" class="mobile-br-15"></div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
