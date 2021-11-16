@@ -256,10 +256,10 @@ public class SignupAdminController {
 
             Context context = new Context();
             Map<String, Object> model = new HashMap<>();
+            model.put("img_logo", img_logo);
             model.put("username", admin.getUsernameUsuario());
             model.put("url", url);
-            model.put("img_logo", img_logo);
-            model.put("frontend_baseUrl", baseurl);
+            model.put("system_mail", system_mail);
 
             context.setVariables(model);
 
