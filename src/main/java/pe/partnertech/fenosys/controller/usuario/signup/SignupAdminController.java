@@ -118,6 +118,10 @@ public class SignupAdminController {
                     admin.setUsernameUsuario(username);
                     usuarioService.GuardarUsuario(admin);
 
+                    String url = UtilityFenosys.GenerarUrl(request) + "/api/admin_register_gateway?token=" + token;
+
+                    EnviarCorreo(emailRequest.getEmailUsuario(), url);
+
                     UtilityToken utilityToken = new UtilityToken(
                             token,
                             "Signup Admin",
@@ -125,10 +129,6 @@ public class SignupAdminController {
                             admin
                     );
                     utilityTokenService.GuardarUtilityToken(utilityToken);
-
-                    String url = UtilityFenosys.GenerarUrl(request) + "/api/admin_register_gateway?token=" + token;
-
-                    EnviarCorreo(emailRequest.getEmailUsuario(), url);
                 } catch (UnsupportedEncodingException e) {
                     return new ResponseEntity<>(new MessageResponse("Error: " + e), HttpStatus.BAD_REQUEST);
                 } catch (MessagingException e) {

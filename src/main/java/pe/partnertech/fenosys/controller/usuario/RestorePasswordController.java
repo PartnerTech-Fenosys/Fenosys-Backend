@@ -91,6 +91,10 @@ public class RestorePasswordController {
                     try {
                         String token = RandomString.make(50);
 
+                        String url = UtilityFenosys.GenerarUrl(request) + "/api/restore_password_gateway?token=" + token;
+
+                        EnviarCorreo(emailRequest.getEmailUsuario(), url);
+
                         UtilityToken utilityToken = new UtilityToken(
                                 token,
                                 "Restore Password",
@@ -98,10 +102,6 @@ public class RestorePasswordController {
                                 usuario
                         );
                         utilityTokenService.GuardarUtilityToken(utilityToken);
-
-                        String url = UtilityFenosys.GenerarUrl(request) + "/api/restore_password_gateway?token=" + token;
-
-                        EnviarCorreo(emailRequest.getEmailUsuario(), url);
                     } catch (UnsupportedEncodingException e) {
                         return new ResponseEntity<>(new MessageResponse("Error: " + e),
                                 HttpStatus.BAD_REQUEST);

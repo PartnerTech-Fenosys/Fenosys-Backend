@@ -145,6 +145,10 @@ public class SignupAgricultorController {
 
                                 String token = RandomString.make(50);
 
+                                String url = UtilityFenosys.GenerarUrl(request) + "/api/agricultor_verify_gateway?token=" + token;
+
+                                EnviarCorreo(signupAgricultorRequest.getEmailUsuario(), url);
+
                                 //Generando Token: Verificación
                                 UtilityToken utilityToken = new UtilityToken(
                                         token,
@@ -153,10 +157,6 @@ public class SignupAgricultorController {
                                         agricultor
                                 );
                                 utilityTokenService.GuardarUtilityToken(utilityToken);
-
-                                String url = UtilityFenosys.GenerarUrl(request) + "/api/agricultor_verify_gateway?token=" + token;
-
-                                EnviarCorreo(signupAgricultorRequest.getEmailUsuario(), url);
 
                                 usuarioService.GuardarUsuario(agricultor);
 
