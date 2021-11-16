@@ -15,19 +15,16 @@ import java.util.Set;
 public class Rol implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @ManyToMany(mappedBy = "rolesUsuario")
+    Set<Usuario> usuariosRoles;
     //Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_rol")
     private int idRol;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "rol", length = 20)
     private RolNombre nombreRol;
-
-    @ManyToMany(mappedBy = "rolesUsuario")
-    Set<Usuario> usuariosRoles;
 
     //Constructores
     public Rol() {

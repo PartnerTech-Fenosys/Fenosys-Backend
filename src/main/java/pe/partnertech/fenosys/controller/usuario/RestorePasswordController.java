@@ -10,9 +10,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.TemplateEngine;
+import pe.partnertech.fenosys.controller.util.util_code.Code_SendEmail;
 import pe.partnertech.fenosys.dto.request.usuario.general.EmailRequest;
 import pe.partnertech.fenosys.dto.request.usuario.general.UpdatePasswordRequest;
 import pe.partnertech.fenosys.dto.response.general.MessageResponse;
@@ -23,7 +24,6 @@ import pe.partnertech.fenosys.service.IUtilityTokenService;
 import pe.partnertech.fenosys.tools.UtilityFenosys;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -48,6 +48,9 @@ public class RestorePasswordController {
     JavaMailSender mailSender;
 
     final
+    TemplateEngine templateEngine;
+
+    final
     PasswordEncoder passwordEncoder;
 
     @Value("${front.baseurl}")
@@ -56,11 +59,16 @@ public class RestorePasswordController {
     @Value("${spring.mail.username}")
     private String system_mail;
 
+    @Value("${image.logo.url}")
+    private String img_logo;
+
     public RestorePasswordController(IUsuarioService usuarioService, IUtilityTokenService utilityTokenService,
-                                     JavaMailSender mailSender, PasswordEncoder passwordEncoder) {
+                                     JavaMailSender mailSender, TemplateEngine templateEngine,
+                                     PasswordEncoder passwordEncoder) {
         this.usuarioService = usuarioService;
         this.utilityTokenService = utilityTokenService;
         this.mailSender = mailSender;
+        this.templateEngine = templateEngine;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -73,40 +81,46 @@ public class RestorePasswordController {
         if (usuario_data.isPresent()) {
             Usuario usuario = usuario_data.get();
 
-            Set<UtilityToken> lista_utilitytoken =
-                    new HashSet<>(utilityTokenService.BuscarUtilityToken_By_IDUsuarioAndRazonUtilityToken(
-                            usuario.getIdUsuario(),
-                            "Restore Password"));
+            if (usuario.getEstadoUsuario().equals("ACTIVO")) {
+                Set<UtilityToken> lista_utilitytoken =
+                        new HashSet<>(utilityTokenService.BuscarUtilityToken_By_IDUsuarioAndRazonUtilityToken(
+                                usuario.getIdUsuario(),
+                                "Restore Password"));
 
-            if ((long) lista_utilitytoken.size() < 1) {
-                try {
-                    String token = RandomString.make(50);
+                if ((long) lista_utilitytoken.size() < 1) {
+                    try {
+                        String token = RandomString.make(50);
 
-                    UtilityToken utilityToken = new UtilityToken(
-                            token,
-                            "Restore Password",
-                            LocalDateTime.now().plusMinutes(10),
-                            usuario
-                    );
-                    utilityTokenService.GuardarUtilityToken(utilityToken);
+                        UtilityToken utilityToken = new UtilityToken(
+                                token,
+                                "Restore Password",
+                                LocalDateTime.now().plusMinutes(10),
+                                usuario
+                        );
+                        utilityTokenService.GuardarUtilityToken(utilityToken);
 
-                    String url = UtilityFenosys.GenerarUrl(request) + "/api/restore_password_gateway?token=" + token;
+                        String url = UtilityFenosys.GenerarUrl(request) + "/api/restore_password_gateway?token=" + token;
 
-                    EnviarCorreo(emailRequest.getEmailUsuario(), url);
-                } catch (UnsupportedEncodingException e) {
-                    return new ResponseEntity<>(new MessageResponse("Error: " + e),
-                            HttpStatus.BAD_REQUEST);
-                } catch (MessagingException e) {
-                    return new ResponseEntity<>(new MessageResponse("Error al enviar el email."),
-                            HttpStatus.BAD_REQUEST);
+                        EnviarCorreo(emailRequest.getEmailUsuario(), url);
+                    } catch (UnsupportedEncodingException e) {
+                        return new ResponseEntity<>(new MessageResponse("Error: " + e),
+                                HttpStatus.BAD_REQUEST);
+                    } catch (MessagingException e) {
+                        return new ResponseEntity<>(new MessageResponse("Error al enviar el email."),
+                                HttpStatus.BAD_REQUEST);
+                    }
+                    return new ResponseEntity<>(new MessageResponse("Revise su bandeja de entrada para continuar con el " +
+                            "proceso de Restauración de Contraseña. Recuerde que dispone de no más de 10 minutos para " +
+                            "culminar con el proceso. De lo contrario, deberá efectuar una nueva solicitud."),
+                            HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(new MessageResponse("Ya se solicitó un proceso de Restablecimiento " +
+                            "previamente con este correo electrónico."),
+                            HttpStatus.CONFLICT);
                 }
-                return new ResponseEntity<>(new MessageResponse("Revise su bandeja de entrada para continuar con el " +
-                        "proceso de Restauración de Contraseña. Recuerde que dispone de no más de 10 minutos para " +
-                        "culminar con el proceso. De lo contrario, deberá efectuar una nueva solicitud."),
-                        HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(new MessageResponse("Ya se solicitó un proceso de Restauración previamente " +
-                        "con este correo electrónico."),
+                return new ResponseEntity<>(new MessageResponse("No puede iniciar este proceso si aún no culminó un " +
+                        "proceso de registro previamente."),
                         HttpStatus.CONFLICT);
             }
         } else {
@@ -174,23 +188,6 @@ public class RestorePasswordController {
 
     private void EnviarCorreo(String email, String url) throws MessagingException, UnsupportedEncodingException {
 
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-        helper.setFrom(system_mail, "Fenosys Support");
-        helper.setTo(email);
-
-        String asunto = "Solicitud de Restauración de Contraseña";
-
-        String contenido =
-                "<h2>Hola,</h1>" +
-                        "<p>Gracias por realizar tu solicitud de Restauración de Contraseña.</p>" +
-                        "<br>Haz click en el link que se encuentra debajo para continuar con el proceso." +
-                        "<a target=\"_blank\" href=" + url + ">Restaurar mi Contraseña</a>";
-
-        helper.setSubject(asunto);
-        helper.setText(contenido, true);
-
-        mailSender.send(message);
+        Code_SendEmail.RestorePasswordEmail(email, url, mailSender, system_mail, img_logo, templateEngine);
     }
 }

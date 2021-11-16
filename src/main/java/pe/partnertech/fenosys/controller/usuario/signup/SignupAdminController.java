@@ -10,16 +10,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import pe.partnertech.fenosys.controller.util.util_code.Code_AssignDistrito;
-import pe.partnertech.fenosys.controller.util.util_code.Code_SetUserRol;
-import pe.partnertech.fenosys.controller.util.util_code.Code_SignupValidations;
-import pe.partnertech.fenosys.controller.util.util_code.Code_UploadFoto;
+import pe.partnertech.fenosys.controller.util.util_code.*;
 import pe.partnertech.fenosys.dto.request.usuario.general.EmailRequest;
 import pe.partnertech.fenosys.dto.request.usuario.signup.SignupAdminRequest;
 import pe.partnertech.fenosys.dto.response.general.MessageResponse;
@@ -32,7 +27,6 @@ import pe.partnertech.fenosys.service.*;
 import pe.partnertech.fenosys.tools.UtilityFenosys;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,8 +34,6 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -241,34 +233,6 @@ public class SignupAdminController {
 
     private void EnviarCorreo(String email, String url) throws MessagingException, UnsupportedEncodingException {
 
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-        helper.setFrom(system_mail, "Fenosys Support");
-        helper.setTo(email);
-
-        String asunto = "Solicitud de Registro de Administrador";
-
-        Optional<Usuario> admin_data = usuarioService.BuscarUsuario_By_EmailUsuario(email);
-
-        if (admin_data.isPresent()) {
-            Usuario admin = admin_data.get();
-
-            Context context = new Context();
-            Map<String, Object> model = new HashMap<>();
-            model.put("img_logo", img_logo);
-            model.put("username", admin.getUsernameUsuario());
-            model.put("url", url);
-            model.put("system_mail", system_mail);
-
-            context.setVariables(model);
-
-            String html_template = templateEngine.process("adminrequest-mailtemplate", context);
-
-            helper.setSubject(asunto);
-            helper.setText(html_template, true);
-
-            mailSender.send(message);
-        }
+        Code_SendEmail.AdminRequestEmail(email, url, usuarioService, mailSender, system_mail, img_logo, templateEngine);
     }
 }
